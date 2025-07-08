@@ -1,5 +1,5 @@
 module spi_clock_divider #(
-    parameter DIVIDER = 10 // Generates 10MHz from 100MHz clk
+    parameter DIVIDER = 5 // Generates 10MHz from 50MHz clk
 )(
     input wire clk,
     input wire reset,
