@@ -8,13 +8,13 @@ module spi_clock_divider #(
 
     reg [31:0] counter;
 
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
             counter <= 0;
-            spi_clk <= 0;
+            clk_10 <= 0;
         end else begin
             if (counter == (DIVIDER/2 - 1)) begin
-                spi_clk <= ~spi_clk;
+                clk_10 <= ~clk_10;
                 counter <= 0;
             end else begin
                 counter <= counter + 1;
