@@ -13,7 +13,7 @@ module spi_clock_divider #(
             counter <= 0;
             clk_10 <= 0;
         end else begin
-            if (counter == (DIVIDER/2 - 1)) begin
+            if (counter == (DIVIDER - 1)) begin
                 clk_10 <= ~clk_10;
                 counter <= 0;
             end else begin
