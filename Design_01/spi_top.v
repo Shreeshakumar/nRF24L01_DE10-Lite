@@ -26,31 +26,25 @@ module spi_top (
     wire [7:0] rx_data;
     wire spi_done;
 
-    spi_tx spi_tx (
-      .clk_10(clk_10),
-      .rst(rst),
-      .start_tx(start_tx),
-      .data_in(ddata_in),
-      .miso_tx(miso_tx),
+    spi_clock_divider spi_clock_divider (
+        .clk_50(clk_50),
+        .rst(rst),
 
-      .spi_clk(spi_clk),
-      .mosi_tx(mosi_tx),
-      .csn_tx(csn_tx),
-      .data_out(data_out),
-      .done_tx(done_tx)
+        .clk_10(clk_10)
     );
 
-    spi_rx spi_rx (
-      .clk_10(clk_10),
-      .rst(rst),
-      .start_rx(start_rx),
-      .data_in(ddata_in),
-      .miso_rx(miso_rx),
-      .spi_clk(spi_clk),
-      .mosi_rx(mosi_rx),
-      .csn_rx(csn_rx),
-      .data_out(data_out),
-      .done_rx(done_rx)
+    spi_controller spi_controller (
+        .clk_10(clk_10),
+        .rst(rst),
+        .done_tx(done_tx),
+        .done_rx(done_rx),
+        .data_out(data_out),
+
+        .start_tx(start_tx),
+        .start_rx(start_rx),
+        .data_in(data_in),
+        .csn_tx(csn_tx),
+        .csn_rx(csn_rx)
     );
 
     reg [1:0] state;
