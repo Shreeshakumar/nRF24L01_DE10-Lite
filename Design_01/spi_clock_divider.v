@@ -1,9 +1,9 @@
 module spi_clock_divider #(
     parameter DIVIDER = 5 // Generates 10MHz from 50MHz clk
 )(
-    input wire clk,
-    input wire reset,
-    output reg spi_clk
+    input wire clk_50,
+    input wire rst,
+    output reg clk_10
 );
 
     reg [31:0] counter;
