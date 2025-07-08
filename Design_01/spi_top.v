@@ -10,7 +10,7 @@ module spi_top (
     output wire ce_tx,
     output wire mosi_tx,
     output wire miso_tx,    
-  ] output wire csn_tx,
+    output wire csn_tx,
     output wire scl_tx,
     output wire ce_tx,
     output wire mosi_tx,
