@@ -1,15 +1,24 @@
-module spi_controller (
-    input wire clk,             // System clock
-    input wire reset,           // System reset
-    input wire spi_clk,         // SPI clock from divider
-    input wire MISO,            // SPI MISO from slave
-    input wire trigger,         // Start transaction (e.g., button)
-
-    output wire MOSI,
-    output wire SCK,
-    output wire CSN,
-    output wire [7:0] received_data,
-    output wire done            // High when transaction completes
+module spi_top (
+    input wire clk_in,             // System clock
+    input wire key0_rst,
+    input wire sw_tx_9,
+    input wire sw_rx_8,
+    input wire [7:0]sw_data,
+  
+    output wire csn_tx,
+    output wire scl_tx,
+    output wire ce_tx,
+    output wire mosi_tx,
+    output wire miso_tx,    
+  ] output wire csn_tx,
+    output wire scl_tx,
+    output wire ce_tx,
+    output wire mosi_tx,
+    output wire miso_tx,
+  
+    output reg ledr_tx,
+    output reg ledr_rx,
+    output reg [7:0]ledr_rx_data
 );
 
     reg start;
@@ -17,19 +26,31 @@ module spi_controller (
     wire [7:0] rx_data;
     wire spi_done;
 
-    // Instantiate the SPI Master
-    spi_master spi_inst (
-        .clk(clk),
-        .reset(reset),
-        .start(start),
-        .data_in(tx_data),
-        .spi_clk(spi_clk),
-        .data_out(rx_data),
-        .done(spi_done),
-        .MOSI(MOSI),
-        .MISO(MISO),
-        .SCK(SCK),
-        .CSN(CSN)
+    spi_tx spi_tx (
+      .clk_10(clk_10),
+      .rst(rst),
+      .start_tx(start_tx),
+      .data_in(ddata_in),
+      .miso_tx(miso_tx),
+
+      .spi_clk(spi_clk),
+      .mosi_tx(mosi_tx),
+      .csn_tx(csn_tx),
+      .data_out(data_out),
+      .done_tx(done_tx)
+    );
+
+    spi_rx spi_rx (
+      .clk_10(clk_10),
+      .rst(rst),
+      .start_rx(start_rx),
+      .data_in(ddata_in),
+      .miso_rx(miso_rx),
+      .spi_clk(spi_clk),
+      .mosi_rx(mosi_rx),
+      .csn_rx(csn_rx),
+      .data_out(data_out),
+      .done_rx(done_rx)
     );
 
     reg [1:0] state;
