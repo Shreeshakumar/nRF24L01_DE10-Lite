@@ -15,7 +15,7 @@ module spi_controller (
 
     output reg done_tx,                   //done tx trigger to top M
     output reg done_rx,                   //done tx trigger to top M
-    output reg [7:0]data_out,             //data receiver to top M
+    output reg [7:0]data_out              //data receiver to top M
 );
 
     spi_tx spi_tx (
