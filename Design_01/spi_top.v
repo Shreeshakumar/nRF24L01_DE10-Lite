@@ -7,7 +7,7 @@ module spi_top (
     input wire miso_tx,                        //from nrf tx to de10 board
     input wire miso_rx,                        //from nrf rx to de10 board
   
-    output wire csn_tx                         //from de10 board to nrf tx 
+    output wire csn_tx,                        //from de10 board to nrf tx 
     output wire sck_tx,                        //from de10 board to nrf tx  
     output wire ce_tx,                         //from de10 board to nrf tx
     output wire mosi_tx,                       //from de10 board to nrf tx
