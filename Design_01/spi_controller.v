@@ -1,15 +1,26 @@
 module spi_controller (
-    input wire clk_10,             // System clock
-    input wire rst,
-    input wire done_tx,
-    input wire done_rx,
-    input wire [7:0]data_out,
-  
-    output wire start_tx,
-    output wire start_rx,
-    output wire [7:0]data_in,
-    output wire csn_tx,
-    output wire csn_rx
+    input wire clk_10,                   //10Mhz from spi_clock_divider to spi_controller
+    input wire rst,                      //reset trigger from top M to spi_controller
+    input wire [7:0]data_in,             //data to send from top M
+    input wire start_tx,                 //enable tx trigger from top M
+    input wire start_rx,                 //enable rx trigger from top M
+
+    input wire miso_tx,                   //in pins to nrf tx
+    input wire miso_rx,                   //in pins to nrf rx
+
+    output reg done_tx,                   //done tx trigger to top M
+    output reg done_rx,                   //done tx trigger to top M
+    output reg [7:0]data_out,             //data receiver to top M
+    
+    output wire csn_tx,                   //out pins to nrf tx
+    output wire sck_tx,
+    output wire ce_tx,
+    output wire mosi_tx,
+
+    output wire csn_rx,                   //out pins to nrf rx
+    output wire sck_rx,
+    output wire ce_rx,
+    output wire mosi_rx,
 );
 
     reg start;
