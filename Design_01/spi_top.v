@@ -39,9 +39,11 @@ module spi_top (
 
         .miso_tx(miso_tx),                     //input
         .miso_rx(miso_rx)                      //input
-        
+
+        .csn_tx(csn_tx),                       //to enable chip tx
         .mosi_tx(mosi_tx),                     //out pin to nrf tx
         .mosi_rx(mosi_rx),                     //out pin to nrf rx
+        .csn_rx(csn_rx),                       //to enable chip rx
 
         .done_tx(ledr_tx),                     //done tx trigger to top M
         .done_rx(ledr_rx),                     //done rx trigger to top M
@@ -50,9 +52,7 @@ module spi_top (
 
     sck_tx <= sclk;
     ce_tx <= 0;
-    csn_tx <= 0;
     sck_rx <= sclk;
     ce_rx <= 0;
-    csn_rx <= 0;
     
 endmodule
