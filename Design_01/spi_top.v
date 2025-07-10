@@ -36,17 +36,16 @@ module spi_top (
         .data_in(sw_data),                     //data to send from top M
         .start_tx(sw_tx_9),                    //enable tx trigger from top M
         .start_rx(sw_rx_8),                    //enable rx trigger from top M
+
+        .miso_tx(miso_tx),                     //input
+        .miso_rx(miso_rx)                      //input
         
+        .mosi_tx(mosi_tx),                     //out pin to nrf tx
+        .mosi_rx(mosi_rx),                     //out pin to nrf rx
+
         .done_tx(ledr_tx),                     //done tx trigger to top M
         .done_rx(ledr_rx),                     //done rx trigger to top M
         .data_out(ledr_rx_data),               //data receiver to top M
-        
-        .mosi_tx(mosi_tx),                     //out pin to nrf tx
-        .miso_tx(miso_tx),                     //input
-        
-        .mosi_rx(mosi_rx),                     //out pin to nrf rx
-        .miso_rx(miso_rx)                      //input
-
     );
 
     sck_tx <= sclk;
