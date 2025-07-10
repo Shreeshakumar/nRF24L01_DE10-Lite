@@ -38,21 +38,20 @@ module spi_top (
         .start_rx(sw_rx_8),                    //enable rx trigger from top M
 
         .miso_tx(miso_tx),                     //input
-        .miso_rx(miso_rx)                      //input
+        .miso_rx(miso_rx),                     //input
 
+        .ce_tx(ce_tx),                         //enable tx
         .csn_tx(csn_tx),                       //to enable chip tx
+        .sck_tx(sck_tx),                       //sck
         .mosi_tx(mosi_tx),                     //out pin to nrf tx
-        .mosi_rx(mosi_rx),                     //out pin to nrf rx
+        .ce_rx(ce_rx),                         //emable rx
         .csn_rx(csn_rx),                       //to enable chip rx
-
+        .sck_rx(sck_rx),                       //sck
+        .mosi_rx(mosi_rx),                     //out pin to nrf rx
+    
         .done_tx(ledr_tx),                     //done tx trigger to top M
         .done_rx(ledr_rx),                     //done rx trigger to top M
-        .data_out(ledr_rx_data),               //data receiver to top M
+        .data_out(ledr_rx_data)                //data receiver to top M
     );
-
-    sck_tx <= sclk;
-    ce_tx <= 0;
-    sck_rx <= sclk;
-    ce_rx <= 0;
     
 endmodule
