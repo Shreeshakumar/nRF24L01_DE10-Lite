@@ -45,5 +45,10 @@ module spi_controller (
         .csn_rx(csn_rx),                 //enable for nrf rx
         .done_rx(done_rx)                // rx done indication
     );
+
+assign sck_tx = clk_10;
+assign ce_tx  = 1'b0;
+assign sck_rx = clk_10;
+assign ce_rx  = 1'b0;
     
 endmodule
