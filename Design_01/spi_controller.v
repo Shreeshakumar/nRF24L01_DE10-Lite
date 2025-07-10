@@ -19,27 +19,27 @@ module spi_controller (
 );
 
     spi_tx spi_tx (
-      .clk_10(clk_10),
-      .rst(rst),
-      .start_tx(start_tx),
-      .data_in(data_in),
-      .miso_tx(miso_tx),
+        .clk_10(clk_10),                 //10Mhz for  controller
+        .rst(rst),                       //reset form controller
+        .start_tx(start_tx),             //start tx trigger from controller
+        .data_in(data_in),               //data to be transmitted
+        .miso_tx(miso_tx),               //from nrf tx
 
-      .mosi_tx(mosi_tx),
-      .csn_tx(csn_tx),
-      .done_tx(done_tx)
+        .mosi_tx(mosi_tx),               //to nrf tx
+        .csn_tx(csn_tx),                 //enable for nrf tx
+        .done_tx(done_tx)                // tx done indication
     );
 
     spi_rx spi_rx (
-      .clk_10(clk_10),
-      .rst(rst),
-      .start_rx(start_rx),
-      .miso_rx(miso_rx),
-        
-      .mosi_rx(mosi_rx),
-      .csn_rx(csn_rx),
-      .data_out(data_out),
-      .done_rx(done_rx)
-    );
+        .clk_10(clk_10),                 //10Mhz for  controller
+        .rst(rst),                       //reset form controller
+        .start_rx(start_rx),             //start rx trigger from controller
+        .miso_rx(miso_rx),               //from nrf rx
 
+        .data_out(data_out),             //data received
+        .mosi_rx(mosi_rx),               //to nrf rx
+        .csn_rx(csn_rx),                 //enable for nrf rx
+        .done_rx(done_rx)                // rx done indication
+    );
+    
 endmodule
