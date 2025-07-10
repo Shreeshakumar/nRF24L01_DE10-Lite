@@ -7,20 +7,13 @@ module spi_controller (
 
     input wire miso_tx,                   //in pins to nrf tx
     input wire miso_rx,                   //in pins to nrf rx
+    
+    output wire mosi_tx,                  //out pins to nrf tx
+    output wire mosi_rx,                  //out pins to nrf rx
 
     output reg done_tx,                   //done tx trigger to top M
     output reg done_rx,                   //done tx trigger to top M
     output reg [7:0]data_out,             //data receiver to top M
-    
-    output wire csn_tx,                   //out pins to nrf tx
-    output wire sck_tx,
-    output wire ce_tx,
-    output wire mosi_tx,
-
-    output wire csn_rx,                   //out pins to nrf rx
-    output wire sck_rx,
-    output wire ce_rx,
-    output wire mosi_rx,
 );
 
     reg start;
@@ -32,10 +25,9 @@ module spi_controller (
       .clk_10(clk_10),
       .rst(rst),
       .start_tx(start_tx),
-      .data_in(ddata_in),
+      .data_in(data_in),
       .miso_tx(miso_tx),
 
-      .spi_clk(spi_clk),
       .mosi_tx(mosi_tx),
       .csn_tx(csn_tx),
       .data_out(data_out),
