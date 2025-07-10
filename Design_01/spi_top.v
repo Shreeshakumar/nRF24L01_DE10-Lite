@@ -1,97 +1,58 @@
 module spi_top (
-    input wire clk_in,             // System clock
-    input wire key0_rst,
-    input wire sw_tx_9,
-    input wire sw_rx_8,
-    input wire [7:0]sw_data,
+    input wire clk_in,                         //internal clock
+    input wire key0_rst,                       //to reset everything
+    input wire sw_tx_9,                        //enable tx
+    input wire sw_rx_8,                        //enable rx
+    input wire [7:0]sw_data,                   //data in to transmit
+    input wire miso_tx,                        //from nrf tx to de10 board
+    input wire miso_rx,                        //from nrf rx to de10 board
   
-    output wire csn_tx,
-    output wire scl_tx,
-    output wire ce_tx,
-    output wire mosi_tx,
-    output wire miso_tx,    
-    output wire csn_tx,
-    output wire scl_tx,
-    output wire ce_tx,
-    output wire mosi_tx,
-    output wire miso_tx,
+    output wire csn_tx                         //from de10 board to nrf tx 
+    output wire sck_tx,                        //from de10 board to nrf tx  
+    output wire ce_tx,                         //from de10 board to nrf tx
+    output wire mosi_tx,                       //from de10 board to nrf tx
+    output wire csn_rx,                        //from de10 board to nrf rx
+    output wire sck_rx,                        //from de10 board to nrf rx
+    output wire ce_rx,                         //from de10 board to nrf rx
+    output wire mosi_rx,                       //from de10 board to nrf rx
   
-    output reg ledr_tx,
-    output reg ledr_rx,
-    output reg [7:0]ledr_rx_data
+    output reg ledr_tx,                        //indicate tx
+    output reg ledr_rx,                        //indicate rx
+    output reg [7:0]ledr_rx_data               // to show received data
 );
 
-    reg start;
-    reg [7:0] tx_data;
-    wire [7:0] rx_data;
-    wire spi_done;
+    wire sclk;                                 //10Mhz from spi_clock_divider to spi_controller
 
     spi_clock_divider spi_clock_divider (
-        .clk_50(clk_50),
-        .rst(rst),
+        .clk_50(clk_in),                       //50Mhz from top M to spi_controller
+        .rst(key0_rst),                        //reset trigger from top M to spi_clock_divider
 
-        .clk_10(clk_10)
+        .clk_10(sclk)                          //10Mhz to spi_controller
     );
 
     spi_controller spi_controller (
-        .clk_10(clk_10),
-        .rst(rst),
-        .done_tx(done_tx),
-        .done_rx(done_rx),
-        .data_out(data_out),
+        .clk_10(sclk),                         //10Mhz from spi_clock_divider to spi_controller
+        .rst(key0_rst),                        //reset trigger from top M to spi_controller
+        .data_in(sw_data),                     //data to send from top M
+        .start_tx(sw_tx_9),                    //enable tx trigger from top M
+        .start_rx(sw_rx_8),                    //enable rx trigger from top M
+        
+        .done_tx(ledr_tx),                     //done tx trigger to top M
+        .done_rx(ledr_rx),                     //done rx trigger to top M
+        .data_out(ledr_rx_data),               //data receiver to top M
+        
+        .csn_tx(csn_tx),                       // in out pins to nrf tx
+        .sck_tx(sck_tx),
+        .ce_tx(ce_tx),
+        .mosi_tx(mosi_tx),
+        .miso_tx(miso_tx),
+        
+        .csn_rx(csn_rx),                       // in out pins to nrf rx
+        .sck_rx(sck_rx),
+        .ce_rx(ce_rx),
+        .mosi_rx(mosi_rx),
+        .miso_rx(miso_rx)
 
-        .start_tx(start_tx),
-        .start_rx(start_rx),
-        .data_in(data_in),
-        .csn_tx(csn_tx),
-        .csn_rx(csn_rx)
     );
-
-    reg [1:0] state;
-    localparam IDLE = 2'b00,
-               START = 2'b01,
-               WAIT = 2'b10,
-               DONE = 2'b11;
-
-    reg [7:0] rx_buffer;
-
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
-            state <= IDLE;
-            start <= 0;
-            tx_data <= 8'h00;
-            rx_buffer <= 8'h00;
-        end else begin
-            case (state)
-                IDLE: begin
-                    if (trigger) begin
-                        tx_data <= 8'hFF;  // NOP command to read STATUS
-                        start <= 1;
-                        state <= START;
-                    end
-                end
-
-                START: begin
-                    start <= 0;
-                    state <= WAIT;
-                end
-
-                WAIT: begin
-                    if (spi_done) begin
-                        rx_buffer <= rx_data;
-                        state <= DONE;
-                    end
-                end
-
-                DONE: begin
-                    // Optional: Do something with rx_buffer
-                    state <= IDLE;
-                end
-            endcase
-        end
-    end
-
-    assign received_data = rx_buffer;
-    assign done = (state == DONE);
 
 endmodule
