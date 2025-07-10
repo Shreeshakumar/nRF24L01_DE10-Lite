@@ -41,18 +41,19 @@ module spi_top (
         .done_rx(ledr_rx),                     //done rx trigger to top M
         .data_out(ledr_rx_data),               //data receiver to top M
         
-        .csn_tx(csn_tx),                       // in out pins to nrf tx
-        .sck_tx(sck_tx),
-        .ce_tx(ce_tx),
-        .mosi_tx(mosi_tx),
+        .mosi_tx(mosi_tx),                     //out pin to nrf tx
         .miso_tx(miso_tx),                     //input
         
-        .csn_rx(csn_rx),                       // in out pins to nrf rx
-        .sck_rx(sck_rx),
-        .ce_rx(ce_rx),
-        .mosi_rx(mosi_rx),
+        .mosi_rx(mosi_rx),                     //out pin to nrf rx
         .miso_rx(miso_rx)                      //input
 
     );
 
+    sck_tx <= sclk;
+    ce_tx <= 0;
+    csn_tx <= 0;
+    sck_rx <= sclk;
+    ce_rx <= 0;
+    csn_rx <= 0;
+    
 endmodule
