@@ -12,9 +12,9 @@ module spi_controller (
     output wire csn_tx,                   //out pins to nrf tx
     output wire sck_tx,                   //sck
     output wire mosi_tx,                  //out pins to nrf tx
-    output wire ce_tx,                    //enable rx
+    output wire ce_rx,                    //enable rx
     output wire csn_rx,                   //out pins to nrf rx
-    output wire sck_tx,                   //sck
+    output wire sck_rx,                   //sck
     output wire mosi_rx,                  //out pins to nrf rx
 
     output reg done_tx,                   //done tx trigger to top M
