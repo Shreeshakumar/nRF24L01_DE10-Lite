@@ -45,13 +45,13 @@ module spi_top (
         .sck_tx(sck_tx),
         .ce_tx(ce_tx),
         .mosi_tx(mosi_tx),
-        .miso_tx(miso_tx),
+        .miso_tx(miso_tx),                     //input
         
         .csn_rx(csn_rx),                       // in out pins to nrf rx
         .sck_rx(sck_rx),
         .ce_rx(ce_rx),
         .mosi_rx(mosi_rx),
-        .miso_rx(miso_rx)
+        .miso_rx(miso_rx)                      //input
 
     );
 
