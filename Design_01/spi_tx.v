@@ -29,8 +29,9 @@ module spi_tx (
                 shift_reg <= data_in;
                 bit_cnt <= 0;
                 done_tx <= 0;
+                mosi_tx <= data_in[0];
             end else if (tx_active) begin
-                mosi_tx <= shift_reg[7];     // send MSB first
+                mosi_tx <= shift_reg[6];     // send MSB first
                 shift_reg <= {shift_reg[6:0], 1'b0};
                 bit_cnt <= bit_cnt + 1;
 
