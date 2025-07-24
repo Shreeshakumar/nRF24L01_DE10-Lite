@@ -54,22 +54,24 @@ class PixelGridApp:
             byte_list.append(byte)
         return byte_list
 
-    def send_data(self):
-        if ser is None or not ser.is_open:
-            messagebox.showerror("Error", "Serial port not connected!")
-            return
+def send_data(self):
+    if ser is None or not ser.is_open:
+        messagebox.showerror("Error", "Serial port not connected!")
+        return
 
-        byte_data = self.grid_to_bytes()
+    byte_data = self.grid_to_bytes()
+    full_data = [0x00, 0x00] + byte_data  # Prepend 2 dummy bytes
 
-        try:
-            for b in byte_data:
-                ser.write(bytes([b]))
-                time.sleep(0.01)  # 10ms delay
-            self.status_label.config(text="Status: Done")
-            self.bytes_label.config(text=f"Sent Bytes: {[f'{b:#04x}' for b in byte_data]}")
-        except Exception as e:
-            self.status_label.config(text="Status: Failed")
-            messagebox.showerror("Error", str(e))
+    try:
+        for b in full_data:
+            ser.write(bytes([b]))
+            time.sleep(0.01)  # 10ms delay per byte
+        self.status_label.config(text="Status: Done")
+        self.bytes_label.config(text=f"Sent Bytes: {[f'{b:#04x}' for b in full_data]}")
+    except Exception as e:
+        self.status_label.config(text="Status: Failed")
+        messagebox.showerror("Error", str(e))
+
 
 
 if __name__ == "__main__":
