@@ -11,7 +11,7 @@ except serial.SerialException:
     print("Failed to connect to COM10. Please check the port.")
 
 class PixelGridApp:
-    def _init_(self, root):
+    def __init__(self, root):
         self.root = root
         self.root.title("8x8 Pixel Transmitter")
         self.grid = [[0 for _ in range(8)] for _ in range(8)]  # 8x8 grid values (0 or 1)
@@ -72,7 +72,7 @@ class PixelGridApp:
             messagebox.showerror("Error", str(e))
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     root = tk.Tk()
     app = PixelGridApp(root)
     root.mainloop()
